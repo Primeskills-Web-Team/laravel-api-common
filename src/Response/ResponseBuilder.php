@@ -177,9 +177,6 @@ class ResponseBuilder
      */
     public function build(): array
     {
-        if ($this->responseCode != null) {
-            $this->setMessage("Code [$this->responseCode]. $this->message");
-        }
         return [
             'response_code' => $this->responseCode,
             'success' => $this->responseCode === "000",
