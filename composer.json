@@ -1,0 +1,19 @@
+{
+    "name": "primeskills/api-common",
+    "description": "API Common",
+    "type": "project",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Primeskills\\ApiCommon\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Muhammad Suryono",
+            "email": "msuryono0@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {}
+}
