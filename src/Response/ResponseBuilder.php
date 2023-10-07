@@ -208,10 +208,6 @@ class ResponseBuilder
 
         $this->setCode($statusCode);
         $this->mapMessageDefaultStatusCode($statusCode);
-        if (config('app.debug')) {
-            $this->errors['trace'] = $this->exception->getTrace();
-            $this->errors['code'] = $this->exception->getCode();
-        }
 
         $this->setData($this->errors);
     }
