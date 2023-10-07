@@ -177,8 +177,8 @@ class ResponseBuilder
      */
     public function build(): array
     {
-        if ($this->errorCode != null) {
-            $this->setMessage("Code [$this->errorCode]. $this->message");
+        if ($this->responseCode != null) {
+            $this->setMessage("Code [$this->responseCode]. $this->message");
         }
         return [
             'success' => $this->code >= 200 && $this->code < 300,
