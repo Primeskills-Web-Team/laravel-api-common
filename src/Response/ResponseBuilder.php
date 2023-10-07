@@ -181,9 +181,9 @@ class ResponseBuilder
             $this->setMessage("Code [$this->responseCode]. $this->message");
         }
         return [
-            'success' => $this->code >= 200 && $this->code < 300,
-            'code' => $this->code,
             'response_code' => $this->responseCode,
+            'success' => $this->responseCode === "000",
+            "ref" => uniqid(rand(10*45, 999)),
             'message' => $this->message,
             'error_message' => $this->errorMessage,
             'resources' => $this->resources,
