@@ -80,11 +80,9 @@ class ResponseBuilder
      */
     public function __construct()
     {
-        $this->code = '200';
-        $this->responseCode = '000';
-        $this->message = 'Success';
+        $this->responseCode = ResponseConstant::SUCCESS_CODE;
+        $this->message = ResponseConstant::SUCCESS_DESCRIPTION;
         $this->data = null;
-        $this->status = '200';
         $this->success = true;
         $this->resources = env("APP_NAME") ?? "-";
     }
@@ -179,7 +177,7 @@ class ResponseBuilder
     {
         return [
             'response_code' => $this->responseCode,
-            'success' => $this->responseCode === "000",
+            'success' => $this->responseCode === ResponseConstant::SUCCESS_CODE,
             "ref" => uniqid(rand(10*45, 999)),
             'message' => $this->message,
             'error_message' => $this->errorMessage,
@@ -206,9 +204,7 @@ class ResponseBuilder
             $statusCode = $this->exception->getStatusCode();
         }
 
-        $this->setCode($statusCode);
         $this->mapMessageDefaultStatusCode($statusCode);
-
         $this->setData($this->errors);
     }
 
@@ -219,42 +215,40 @@ class ResponseBuilder
     private function mapMessageDefaultStatusCode(int $statusCode): void
     {
         $this->write()->error("Error Code [$statusCode] " . $this->exception->getMessage());
+        $this->setMessage(ResponseConstant::GENERAL_ERROR_DESCRIPTION);
+        $this->setResponseCode(ResponseConstant::GENERAL_ERROR);
         switch ($statusCode) {
             case 400:
-                $this->setResponseCode("040");
-                $this->setMessage("Something Went Wrong");
+                $this->setResponseCode(ResponseConstant::BAD_REQUEST_CODE);
                 $this->setErrorMessage($this->exception->getMessage());
                 break;
             case 401:
-                $this->setResponseCode("041");
-                $this->setErrorMessage($this->exception->getMessage() == null ? 'Unauthorized' : $this->exception->getMessage());
-                $this->setMessage('Unauthorized');
+                $this->setResponseCode(ResponseConstant::UNAUTHORIZED_CODE);
+                $this->setErrorMessage($this->exception->getMessage() == null ? ResponseConstant::UNAUTHORIZED_DESCRIPTION : $this->exception->getMessage());
                 break;
             case 403:
-                $this->setResponseCode("043");
-                $this->setMessage('Forbidden Access');
+                $this->setResponseCode(ResponseConstant::ROLE_FORBIDDEN_ACCESS_CODE);
                 $this->setErrorMessage('Forbidden Access');
                 break;
             case 404:
-                $this->setResponseCode("040");
-                $this->setMessage("Something Went Wrong");
+                $this->setResponseCode(ResponseConstant::NOT_FOUND_CODE);
+                $this->setErrorMessage(ResponseConstant::NOT_FOUND_DESCRIPTION);
                 break;
             case 405:
-                $this->setResponseCode("045");
-                $this->setMessage('Method Not Allowed');
-                $this->setErrorMessage('Method Not Allowed');
+                $this->setResponseCode(ResponseConstant::METHOD_NOT_ALLOWED_CODE);
+                $this->setErrorMessage(ResponseConstant::METHOD_NOT_ALLOWED_DESCRIPTION);
                 break;
             case 422:
+                $this->setResponseCode(ResponseConstant::VALIDATION_ERROR_CODE);
                 $this->setErrorMessage($this->exception->getMessage());
-                $this->setMessage("Something Went Wrong");
                 $this->errors = $this->exception->getData();
                 break;
             default:
                 $this->setResponseCode("999");
                 $this->setCode($statusCode);
-                $message = strpos(strtolower($this->exception->getMessage()), 'sql') !== false && env('APP_ENV') == "production" ? 'Whoops, looks like something went wrong' : $this->exception->getMessage();
+                $message = strpos(strtolower($this->exception->getMessage()), 'sql') !== false && env('APP_ENV') == "production"
+                    ? 'Whoops, looks like something went wrong on data access to database' : $this->exception->getMessage();
                 $this->setErrorMessage(($statusCode == 500) ? $message : $this->exception->getMessage());
-                $this->setMessage("Something Went Wrong");
                 break;
         }
     }
@@ -301,7 +295,7 @@ class ResponseBuilder
      */
     public function version(): ResponseBuilder
     {
-        $this->setData(['version' => env('APP_VERSION', '1.0')])
+        $this->setData(['version' => env('APP_VERSION', '0.0.1')])
             ->setMessage('Success get service ' . env('APP_NAME'));
         return $this;
     }
