@@ -86,7 +86,7 @@ class ResponseBuilder
         $this->data = null;
         $this->status = '200';
         $this->success = true;
-        $this->resources = '';
+        $this->resources = env("APP_NAME") ?? "-";
     }
 
     /**
