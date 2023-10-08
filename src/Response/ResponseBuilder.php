@@ -217,6 +217,11 @@ class ResponseBuilder
         $this->write()->error("Error Code [$statusCode] " . $this->exception->getMessage());
         $this->setMessage(ResponseConstant::GENERAL_ERROR_DESCRIPTION);
         $this->setResponseCode(ResponseConstant::GENERAL_ERROR);
+        $this->setCode($statusCode);
+
+        if (method_exists($this->exception, 'getData')) {
+            $this->errors = $this->exception->getData();
+        }
         switch ($statusCode) {
             case 400:
                 $this->setResponseCode(ResponseConstant::BAD_REQUEST_CODE);
@@ -238,10 +243,13 @@ class ResponseBuilder
                 $this->setResponseCode(ResponseConstant::METHOD_NOT_ALLOWED_CODE);
                 $this->setErrorMessage(ResponseConstant::METHOD_NOT_ALLOWED_DESCRIPTION);
                 break;
+            case 419:
+                $this->setResponseCode(ResponseConstant::TOKEN_MISMATCH_CODE);
+                $this->setErrorMessage(ResponseConstant::TOKEN_MISMATCH_DESCRIPTION);
+                break;
             case 422:
                 $this->setResponseCode(ResponseConstant::VALIDATION_ERROR_CODE);
                 $this->setErrorMessage($this->exception->getMessage());
-                $this->errors = $this->exception->getData();
                 break;
             default:
                 $this->setResponseCode("999");

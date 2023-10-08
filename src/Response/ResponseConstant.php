@@ -20,4 +20,6 @@ class ResponseConstant
     const GENERAL_ERROR_DESCRIPTION = "Something went wrong";
     const VALIDATION_ERROR_CODE = "022";
     const VALIDATION_ERROR_DESCRIPTION = "Validation form failed";
+    const TOKEN_MISMATCH_CODE = "019";
+    const TOKEN_MISMATCH_DESCRIPTION = "Token Mismatch";
 }
