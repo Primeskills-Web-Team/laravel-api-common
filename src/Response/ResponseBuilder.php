@@ -182,6 +182,12 @@ class ResponseBuilder
             'message' => $this->message,
             'error_message' => $this->errorMessage,
             'resources' => $this->resources,
+            "request" => [
+                "headers" => collect(\request()->header())->transform(function ($item) {
+                    return $item[0];
+                }),
+                "body" => \request()->input()
+            ],
             'data' => $this->data
         ];
     }
