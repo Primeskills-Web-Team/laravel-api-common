@@ -85,6 +85,7 @@ class ResponseBuilder
         $this->data = null;
         $this->success = true;
         $this->resources = env("APP_NAME") ?? "-";
+        $this->code = 200;
     }
 
     /**
