@@ -319,9 +319,10 @@ class ResponseBuilder
         return $this->responseCode;
     }
 
-    public function setResponseCode(string $responseCode): void
+    public function setResponseCode(string $responseCode): ResponseBuilder
     {
         $this->responseCode = $responseCode;
+        return $this;
     }
 
     public function getErrorMessage(): string
@@ -329,9 +330,10 @@ class ResponseBuilder
         return $this->errorMessage;
     }
 
-    public function setErrorMessage(string $errorMessage): void
+    public function setErrorMessage(string $errorMessage): ResponseBuilder
     {
         $this->errorMessage = $errorMessage;
+        return $this;
     }
 
     public function getResources(): string
@@ -339,9 +341,10 @@ class ResponseBuilder
         return $this->resources;
     }
 
-    public function setResources(string $resources): void
+    public function setResources(string $resources): ResponseBuilder
     {
         $this->resources = $resources;
+        return $this;
     }
 
 }
