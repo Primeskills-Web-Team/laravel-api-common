@@ -189,6 +189,9 @@ class ResponseBuilder
                 }),
                 "body" => \request()->input()
             ],
+            "response" => [
+                "headers" => collect(response()->headers)
+            ],
             'data' => $this->data
         ];
     }
