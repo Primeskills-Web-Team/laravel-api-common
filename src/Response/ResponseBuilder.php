@@ -233,30 +233,37 @@ class ResponseBuilder
             case 400:
                 $this->setResponseCode(ResponseConstant::BAD_REQUEST_CODE);
                 $this->setErrorMessage($this->exception->getMessage());
+                $this->setMessage($this->exception->getMessage());
                 break;
             case 401:
                 $this->setResponseCode(ResponseConstant::UNAUTHORIZED_CODE);
                 $this->setErrorMessage($this->exception->getMessage() == null ? ResponseConstant::UNAUTHORIZED_DESCRIPTION : $this->exception->getMessage());
+                $this->setMessage($this->exception->getMessage() == null ? ResponseConstant::UNAUTHORIZED_DESCRIPTION : $this->exception->getMessage());
                 break;
             case 403:
                 $this->setResponseCode(ResponseConstant::ROLE_FORBIDDEN_ACCESS_CODE);
                 $this->setErrorMessage('Forbidden Access');
+                $this->setMessage('Forbidden Access');
                 break;
             case 404:
                 $this->setResponseCode(ResponseConstant::NOT_FOUND_CODE);
                 $this->setErrorMessage(ResponseConstant::NOT_FOUND_DESCRIPTION);
+                $this->setMessage(ResponseConstant::NOT_FOUND_DESCRIPTION);
                 break;
             case 405:
                 $this->setResponseCode(ResponseConstant::METHOD_NOT_ALLOWED_CODE);
                 $this->setErrorMessage(ResponseConstant::METHOD_NOT_ALLOWED_DESCRIPTION);
+                $this->setMessage(ResponseConstant::METHOD_NOT_ALLOWED_DESCRIPTION);
                 break;
             case 419:
                 $this->setResponseCode(ResponseConstant::TOKEN_MISMATCH_CODE);
                 $this->setErrorMessage(ResponseConstant::TOKEN_MISMATCH_DESCRIPTION);
+                $this->setMessage(ResponseConstant::TOKEN_MISMATCH_DESCRIPTION);
                 break;
             case 422:
                 $this->setResponseCode(ResponseConstant::VALIDATION_ERROR_CODE);
                 $this->setErrorMessage($this->exception->getMessage());
+                $this->setMessage($this->exception->getMessage());
                 break;
             default:
                 $this->setResponseCode("999");
@@ -264,6 +271,7 @@ class ResponseBuilder
                 $message = strpos(strtolower($this->exception->getMessage()), 'sql') !== false && env('APP_ENV') == "production"
                     ? 'Whoops, looks like something went wrong on data access to database' : $this->exception->getMessage();
                 $this->setErrorMessage(($statusCode == 500) ? $message : $this->exception->getMessage());
+                $this->setMessage(($statusCode == 500) ? $message : $this->exception->getMessage());
                 break;
         }
     }
