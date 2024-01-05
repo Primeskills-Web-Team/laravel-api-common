@@ -13,6 +13,7 @@ class PrimeskillsRole
         3 => 'lecturer',
         4 => 'student',
         5 => 'superadmin',
+        6 => 'organization'
     ];
 
     public function handle($request, Closure $next, $role, $guard = null)
